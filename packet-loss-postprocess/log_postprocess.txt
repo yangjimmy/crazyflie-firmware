@@ -1,0 +1,24 @@
+SYS: Crazyflie 2.1 is up and running!
+SYS: Build 9:101de77a6746 (2023.11 +9) MODIFIED
+SYS: I am 0x3337333634324704001A0028 and I have 1024KB of flash!
+CFGBLK: v1, verification [OK]
+DECK_CORE: 0 deck(s) found
+IMU: BMI088: Using I2C interface.
+IMU: BMI088 Gyro connection [OK].
+IMU: BMI088 Accel connection [OK]
+IMU: BMP388 I2C connection [OK]
+ESTIMATOR: Using Complementary (1) estimator
+CONTROLLER: Using PID (1) controller
+MTR-DRV: Using brushed motor driver
+SYS: About to run tests in system.c.
+SYS: NRF51 version: 2022.03
+EEPROM: I2C connection [OK].
+STORAGE: Storage check [OK].
+IMU: BMI088 gyro self-test [OK]
+SYS: Self test passed!
+STAB: Wait for sensor calibration...
+SYS: Free heap: 20496 bytes
+P2P: Waiting for activation ...
+STAB: Starting stabilizer loop
+SUP: Can not fly
+SUP: Ready to fly
