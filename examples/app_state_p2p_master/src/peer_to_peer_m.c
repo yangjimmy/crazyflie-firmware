@@ -45,28 +45,33 @@
 #define DEBUG_MODULE "P2P"
 #include "debug.h"
 
-//#define MESSAGE "Hello World Hello World Hello World H" //"hello world"
-#define MESSAGE_LENGHT 38 //11 // length of string hello world
+#include "stabilizer_types.h"
 
+//#define MESSAGE "Hello World Hello World Hello World H" //"hello world"
+#define MESSAGE_LENGTH 10 //30 //11 // length of string hello world
+
+extern state_address sa;
+static float yaw;
+static state_t state;
 
 // int packets_received = 0;
 int packets_sent = 0;
 
-void p2pcallbackHandler(P2PPacket *p)
-{
-  // Parse the data from the other crazyflie and print it
-  //uint8_t other_id = p->data[0];
-  static char msg[MESSAGE_LENGHT + 1];
-  memcpy(&msg, &p->data[1], sizeof(char)*MESSAGE_LENGHT);
-  msg[MESSAGE_LENGHT] = 0;
-  //uint8_t rssi = p->rssi;
+// void p2pcallbackHandler(P2PPacket *p)
+// {
+//   // Parse the data from the other crazyflie and print it
+//   //uint8_t other_id = p->data[0];
+//   static char msg[MESSAGE_LENGTH + 1];
+//   memcpy(&msg, &p->data[1], sizeof(char)*MESSAGE_LENGTH);
+//   msg[MESSAGE_LENGTH] = 0;
+//   //uint8_t rssi = p->rssi;
   
-  //DEBUG_PRINT("[RSSI: -%d dBm] Message from CF nr. %d, %s\n", rssi, other_id, msg); // prints to console
-  DEBUG_PRINT("r %s\n", msg);
+//   //DEBUG_PRINT("[RSSI: -%d dBm] Message from CF nr. %d, %s\n", rssi, other_id, msg); // prints to console
+//   DEBUG_PRINT("r %s\n", msg);
   
-  //packets_received++;
-  //DEBUG_PRINT("r %d, %f\n",packets_received, (double)usecTimestamp());
-}
+//   //packets_received++;
+//   //DEBUG_PRINT("r %d, %f\n",packets_received, (double)usecTimestamp());
+// }
 
 void appMain()
 {
@@ -86,36 +91,33 @@ void appMain()
   //Put a string in the payload
   //char *str="Hello World Hello World Hello World H";
   
-  char str[38];
-  
+  char str[MESSAGE_LENGTH];
 
   
 
   // Register the callback function so that the CF can receive packets as well.
-  p2pRegisterCB(p2pcallbackHandler);
+  // p2pRegisterCB(p2pcallbackHandler);
 
   while(1) {
     // Send a message every 2 seconds
     //   Note: if they are sending at the exact same time, there will be message collisions, 
     //    however since they are sending every 2 seconds, and they are not started up at the same
     //    time and their internal clocks are different, there is not really something to worry about
+
+    state = *(state_t*)(sa.address);
+    yaw = state.attitude.yaw;
+
+    // DEBUG_PRINT("y:%5.2f\n", (double)yaw);
     
-    snprintf( str, sizeof(char)*MESSAGE_LENGHT, "%d", packets_sent );
-    memcpy(&p_reply.data[1], str, sizeof(char)*MESSAGE_LENGHT);
+    snprintf( str, sizeof(char)*MESSAGE_LENGTH, "%d", (int)(yaw*10) );
+    memcpy(&p_reply.data[1], str, sizeof(char)*MESSAGE_LENGTH);
     
     // Set the size, which is the amount of bytes the payload with ID and the string 
-    p_reply.size=sizeof(char)*MESSAGE_LENGHT+1;
-  
-    packets_sent++;
+    p_reply.size=sizeof(char)*MESSAGE_LENGTH+1;
 
-    //vTaskDelay(M2T(2000));
-    //vTaskDelay(M2T(2)); // 500 Hz
-    //vTaskDelay(M2T(5)); // 200 Hz
-    // vTaskDelay(M2T(10)); // 100
     // vTaskDelay(M2T(20)); // 50
-    vTaskDelay(M2T(25)); // 40
-    // vTaskDelay(M2T(50)); // 20
-    // vTaskDelay(M2T(100)); // 10
+    vTaskDelay(M2T(50)); // 20
+    //vTaskDelay(M2T(100)); // 10
     radiolinkSendP2PPacketBroadcast(&p_reply);
 
     // packets_sent++;

@@ -73,6 +73,8 @@
 #include "i2cdev.h"
 #include "autoconf.h"
 #include "vcp_esc_passthrough.h"
+// #include "imu_comm.h" // CHANGED: ADDED
+// #include "example.h" // CHANGED: ADDED
 #if CONFIG_ENABLE_CPX
   #include "cpxlink.h"
 #endif
@@ -147,6 +149,7 @@ void systemInit(void)
   appInit();
 #endif
 
+  // exampleTaskInit(); //CHANGED: ADDED
   isInit = true;
 }
 
@@ -158,6 +161,8 @@ bool systemTest()
   pass &= pmTest();
   pass &= workerTest();
   pass &= buzzerTest();
+  // pass &= imuCommTest(); // CHANGED: ADDED
+  // pass &= exampleTaskTest();
   return pass;
 }
 
@@ -216,6 +221,8 @@ void systemTask(void *arg)
 #ifdef PROXIMITY_ENABLED
   proximityInit();
 #endif
+  
+  // imuCommInit(); //CHANGED: ADDED
 
   systemRequestNRFVersion();
 
@@ -288,7 +295,6 @@ void systemTask(void *arg)
     pass = false;
     DEBUG_PRINT("peerLocalization [FAIL]\n");
   }
-
   //Start the firmware
   if(pass)
   {

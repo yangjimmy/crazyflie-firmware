@@ -1,0 +1,31 @@
+Firmware directory notes
+src/
+- contains source c code
+src/config/config.h
+- set task priorities
+src/modules/src/
+- contains source code for each module on the crazyflie
+src/modules/src/stabilizer.c
+- source code for stabilizer (controller)
+state.attitude.roll
+state.attitude.pitch
+state.attitude.yaw
+src/modules/src/system.c
+- defines system task startup sequence
+src/modules/src/estimator_kalman.c
+- static void kalmanTask()
+-- Kalman filter task
+-- sample IMU data
+- updatedQueuedMeasurements() ln 290
+-- pull latest measurement data
+src/modules/src/estimator/estimator.c
+-- defines event triggers for events
+src/modules/src/app_handler.c
+-- defines app tasks (lowest priority)
+src/modules/interface/static_mem.h
+- STATIC_MEM_TASK_ALLOC_STACK_NO_DMA_CCM_SAFE
+-- allocates memory for KF task
+
+src/init/main.c
+- initialization for the crazyflie
+

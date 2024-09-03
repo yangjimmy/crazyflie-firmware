@@ -57,6 +57,10 @@
 #include "static_mem.h"
 #include "rateSupervisor.h"
 
+// #include "imu_comm.h" //CHANGED: ADDED
+// #include "example.h" //CHANGED: ADDED
+#include "app.h" //CHANGED: ADDED
+
 static bool isInit;
 
 static uint32_t inToOutLatency;
@@ -294,6 +298,7 @@ static void stabilizerTask(void* param)
       updateStateEstimatorAndControllerTypes();
 
       stateEstimator(&state, stabilizerStep);
+      // exampleTaskEnqueueInput(state.attitude.roll); // CHANGED: ADDED
 
       const bool areMotorsAllowedToRun = supervisorAreMotorsAllowedToRun();
 
@@ -354,6 +359,8 @@ static void stabilizerTask(void* param)
 #endif
   }
 }
+
+state_address sa = STATE_ADDRESS(&state);
 
 /**
  * Parameters to set the estimator and controller type

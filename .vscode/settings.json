@@ -5,6 +5,18 @@
         "**/bower_components": true
     },
     "files.associations": {
-        "bootloader.h": "c"
+        "bootloader.h": "c",
+        "optional": "c",
+        "functional": "c",
+        "random": "c",
+        "istream": "c",
+        "mutex": "c",
+        "ostream": "c",
+        "stop_token": "c",
+        "streambuf": "c",
+        "controller_mellinger.h": "c",
+        "cstdio": "c",
+        "string.h": "c",
+        "example.h": "c"
     }
 }

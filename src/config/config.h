@@ -100,6 +100,8 @@
 #define UART2_TASK_PRI          3
 #define CRTP_SRV_TASK_PRI       0
 #define PLATFORM_SRV_TASK_PRI   0
+// #define IMU_COMM_TASK_PRI       0 // CHANGED: ADDED
+// #define EXAMPLE_TASK_PRI        1 // CHANGED: ADDED (APP priority: 1)
 
 // Not compiled
 #if 0
@@ -158,6 +160,8 @@
 #define CPX_TASK_NAME           "CPX"
 #define APP_TASK_NAME           "APP"
 #define FLAPPERDECK_TASK_NAME   "FLAPPERDECK"
+// #define IMU_COMM_TASK_NAME      "IMU COMM" // CHANGED: ADDED
+// #define EXAMPLE_TASK_NAME       "EXAMPLE" // CHANGED: ADDED
 
 
 //Task stack sizes
@@ -204,6 +208,8 @@
 #define KALMAN_TASK_STACKSIZE         (3 * configMINIMAL_STACK_SIZE)
 #define FLAPPERDECK_TASK_STACKSIZE    (2 * configMINIMAL_STACK_SIZE)
 #define ERROR_UKF_TASK_STACKSIZE      (4 * configMINIMAL_STACK_SIZE)
+// #define IMU_COMM_TASK_STACKSIZE       configMINIMAL_STACK_SIZE // CHANGED: ADDED
+// #define EXAMPLE_TASK_STACKSIZE        (3 * configMINIMAL_STACK_SIZE) // CHANGED: ADDED (APP stack size 350)
 
 //The radio channel. From 0 to 125
 #define RADIO_CHANNEL 80

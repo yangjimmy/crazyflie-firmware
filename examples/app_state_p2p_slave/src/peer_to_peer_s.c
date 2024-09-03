@@ -31,6 +31,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "usec_time.h"
 
@@ -42,15 +43,15 @@
 #include "radiolink.h"
 #include "configblock.h"
 
-#define DEBUG_MODULE "P2P"
+#define DEBUG_MODULE "P2PS"
 #include "debug.h"
 
 //#define MESSAGE "Hello World Hello World Hello World H" //"hello world"
-#define MESSAGE_LENGHT 38 //11 // length of string hello world
+#define MESSAGE_LENGHT 10 //11 // length of string hello world
 
 
 // int packets_received = 0;
-int packets_sent = 0;
+//int packets_sent = 0;
 
 void p2pcallbackHandler(P2PPacket *p)
 {
@@ -60,12 +61,10 @@ void p2pcallbackHandler(P2PPacket *p)
   memcpy(&msg, &p->data[1], sizeof(char)*MESSAGE_LENGHT);
   msg[MESSAGE_LENGHT] = 0;
   //uint8_t rssi = p->rssi;
+  DEBUG_PRINT("Recieved");
   
   //DEBUG_PRINT("[RSSI: -%d dBm] Message from CF nr. %d, %s\n", rssi, other_id, msg); // prints to console
-  DEBUG_PRINT("r %s\n", msg);
-  
-  //packets_received++;
-  //DEBUG_PRINT("r %d, %f\n",packets_received, (double)usecTimestamp());
+  DEBUG_PRINT("r %f\n", atof(msg)/(double)10.0);
 }
 
 void appMain()
@@ -86,14 +85,18 @@ void appMain()
   //Put a string in the payload
   //char *str="Hello World Hello World Hello World H";
   
-  char str[38];
+  //char str[38];
   
 
   
 
   // Register the callback function so that the CF can receive packets as well.
   p2pRegisterCB(p2pcallbackHandler);
-
+  while(1) {
+    radiolinkSendP2PPacketBroadcast(&p_reply); // send empty packet
+    vTaskDelay(M2T(50)); // 20
+  }
+  /*
   while(1) {
     // Send a message every 2 seconds
     //   Note: if they are sending at the exact same time, there will be message collisions, 
@@ -113,13 +116,14 @@ void appMain()
     //vTaskDelay(M2T(5)); // 200 Hz
     // vTaskDelay(M2T(10)); // 100
     // vTaskDelay(M2T(20)); // 50
-    vTaskDelay(M2T(25)); // 40
-    // vTaskDelay(M2T(50)); // 20
-    // vTaskDelay(M2T(100)); // 10
+    // vTaskDelay(M2T(25)); // 40
+    vTaskDelay(M2T(50)); // 20
+    //vTaskDelay(M2T(100)); // 10
     radiolinkSendP2PPacketBroadcast(&p_reply);
 
     // packets_sent++;
     // DEBUG_PRINT("s %d, %f\n",packets_sent, (double)usecTimestamp());
   }
+  */
 }
 

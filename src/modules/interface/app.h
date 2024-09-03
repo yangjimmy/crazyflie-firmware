@@ -23,6 +23,13 @@
 /* app.h: App layer API */
 #pragma once
 
+typedef struct state_address {
+   void* address;
+} state_address;
+
+#define STATE_ADDRESS(ADDRESS) \
+   (state_address){ .address = (void*)(ADDRESS)}
+
 /**
  * App Inintialization
  *
